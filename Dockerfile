@@ -10,4 +10,4 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD streamlit run --server.port 8890 app.py
+CMD streamlit run --server.port 9090 app.py

@@ -48,7 +48,7 @@ custom = pysqldf(q)
 st.header("Staff Cost by Location")
 st.write(custom)
 
-download_button_str = download_button(custom, f"Staff Cost by Location.csv", 'Download CSV 1', pickle_it=False)
+download_button_str = download_button(custom, f"Staff Cost by Location.csv", 'Download CSV', pickle_it=False)
 st.markdown(download_button_str, unsafe_allow_html=True)
 
 q = """
@@ -61,11 +61,5 @@ custom2 = pysqldf(q)
 st.header("Staff Cost by Cadre")
 st.write(custom2)
 
-download_button_str = download_button(custom2, f"Staff Cost by Cadre.csv", 'Download CSV 1', pickle_it=False)
+download_button_str = download_button(custom2, f"Staff Cost by Cadre.csv", 'Download CSV', pickle_it=False)
 st.markdown(download_button_str, unsafe_allow_html=True)
-
-# st.header("Custom2")
-# st.write(custom2)
-
-# download_button_str = download_button(custom2, f"custom2.csv", 'Download CSV 2', pickle_it=False)
-# st.markdown(download_button_str, unsafe_allow_html=True)
