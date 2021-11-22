@@ -5,12 +5,19 @@ from pandasql import sqldf
 
 st.set_page_config(layout='wide')
 
-custom_report = st.sidebar.file_uploader("Enter the Custom Report file as a CSV")
-aruti_report = st.sidebar.file_uploader("Enter the Payroll Report file as a CSV")
+aruti_report = st.sidebar.file_uploader("Enter the Payroll Report (Aruti Data) file as a Excel")
+custom_report = st.sidebar.file_uploader("Enter the Custom Report file as an CSV")
+# deducted_breaks_report = st.sidebar.file_uploader("Enter the Deducted Breaks file as a CSV")
 
 # def cost_automator(custom, payroll):
 custom = pd.read_csv(custom_report)
 payroll = pd.read_excel(aruti_report)
+# deducted_breaks = pd.read_csv(deducted_breaks_report)
+
+
+
+custom.replace("Call Center",'Support Office (Call Center)',inplace=True)
+custom.replace("Umoja Clinic",'Umoja 2',inplace=True)
 
 pysqldf = lambda q: sqldf(q, globals())
 q = """
@@ -28,6 +35,17 @@ q = """
     GROUP BY location,eid
 """
 custom = pysqldf(q)
+
+# q = """
+#     SELECT location, schedule_name, eid, sum(total_time) as total_time, Total_Earning, Hours
+#     FROM custom, deducted_breaks
+#     where eid = eid2
+#     GROUP BY location, eid
+#     ORDER BY eid;
+# """
+# custom = pysqldf(q)
+
+# st.write(custom)
 
 q = """
     SELECT location, schedule_name, sum(total_time) as total_time, SUM(Total_Earning) as Total_Earning
@@ -50,6 +68,8 @@ st.write(custom)
 
 download_button_str = download_button(custom, f"Staff Cost by Location.csv", 'Download CSV', pickle_it=False)
 st.markdown(download_button_str, unsafe_allow_html=True)
+
+custom2.replace("Labtech",'Lab Tech',inplace=True)
 
 q = """
     SELECT schedule_name, sum(total_time) as total_time, SUM(Total_Earning) as Total_Earning
